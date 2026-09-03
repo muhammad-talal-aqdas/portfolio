@@ -1,0 +1,26 @@
+.persistent-contact {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.8rem 0.7rem 0.8rem 0.9rem;
+  transform: translateY(-50%) rotate(-90deg) translateX(50%);
+  transform-origin: right center;
+  border: 1px solid rgba(0, 242, 255, 0.32);
+  border-right: 0;
+  background: rgba(5, 10, 14, 0.82);
+  color: rgba(232, 250, 255, 0.68);
+  cursor: pointer;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+  transition: color 200ms ease, border-color 200ms ease;
+}
+
+.persistent-contact:hover { border-color: #00f2ff; color: #00f2ff; }
+.persistent-contact__dot { width: 5px; height: 5px; border-radius: 50%; background: #00f2ff; box-shadow: 0 0 10px #00f2ff; }

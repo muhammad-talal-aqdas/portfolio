@@ -1,0 +1,17 @@
+# MTL written from 1854.obj
+newmtl 1854_ps
+Kd 1 1 1
+Ns 4
+d 1
+illum 2
+Ka 1 1 1
+Ks 0 0 0
+map_Kd 1854_ps.jpg
+newmtl 1854_ps_glass
+Kd 1 1 1
+Ns 4
+d 1
+illum 2
+Ka 1 1 1
+Ks 0 0 0
+map_Kd 1854_ps_glass.jpg
