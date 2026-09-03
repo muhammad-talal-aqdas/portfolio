@@ -8,6 +8,9 @@ export interface DetailViewProps {
   title: string;
   description: string;
   media: string[];
+  eyebrow?: string;
+  teaser?: string;
+  poetry?: string[];
   videoUrl?: string;
   onClose: () => void;
 }
@@ -18,6 +21,9 @@ export default function DetailView({
   title,
   description,
   media,
+  eyebrow = "[ selected project ]",
+  teaser,
+  poetry,
   videoUrl,
   onClose,
 }: DetailViewProps) {
@@ -53,10 +59,19 @@ export default function DetailView({
 
         <div className="detail-view__scroll">
           <div className="detail-view__intro">
-            <p className="detail-view__eyebrow">[ selected project ]</p>
+            <p className="detail-view__eyebrow">{eyebrow}</p>
             <h1>{title}</h1>
+            {teaser && <p className="detail-view__teaser">{teaser}</p>}
             <p className="detail-view__description">{description}</p>
           </div>
+
+          {poetry && poetry.length > 0 && (
+            <blockquote className="detail-view__poetry" lang="ur" dir="rtl">
+              {poetry.map((couplet) => (
+                <p key={couplet}>{couplet}</p>
+              ))}
+            </blockquote>
+          )}
 
           {videoUrl && (
             <div className="detail-view__featured">

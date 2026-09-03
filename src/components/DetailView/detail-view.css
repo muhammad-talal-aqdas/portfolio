@@ -62,6 +62,10 @@
 .detail-view__intro { max-width: 58rem; margin: 0 auto 3.5rem; text-align: center; }
 .detail-view__eyebrow { color: rgba(0, 242, 255, 0.7); font-family: var(--font-geist-mono), monospace; font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; }
 .detail-view h1 { margin: 1rem 0 1.25rem; color: #f4fdff; font-size: clamp(2.4rem, 8vw, 6.5rem); font-weight: 400; letter-spacing: 0.13em; line-height: 0.98; text-transform: uppercase; }
+.detail-view__teaser { margin: 0 auto 1.1rem; color: rgba(0, 242, 255, 0.72); font-family: var(--font-geist-mono), monospace; font-size: clamp(0.68rem, 1.1vw, 0.8rem); letter-spacing: 0.22em; text-transform: uppercase; }
+.detail-view__poetry { max-width: 45rem; margin: 0 auto 3.5rem; padding: 1.75rem 2rem; border-right: 1px solid rgba(0, 242, 255, 0.4); background: rgba(0, 242, 255, 0.04); color: rgba(244, 253, 255, 0.82); font-size: clamp(1rem, 2vw, 1.35rem); line-height: 2.4; text-align: center; }
+.detail-view__poetry p { margin: 0 0 1rem; }
+.detail-view__poetry p:last-child { margin-bottom: 0; }
 .detail-view__description { margin: 0 auto; max-width: 45rem; color: rgba(232, 250, 255, 0.58); font-family: var(--font-geist-mono), monospace; font-size: clamp(0.7rem, 1.2vw, 0.85rem); letter-spacing: 0.12em; line-height: 1.9; }
 
 .detail-view__featured { position: relative; max-width: 66rem; margin: 0 auto 5rem; overflow: hidden; border: 1px solid rgba(0, 242, 255, 0.22); background: #020608; box-shadow: 0 0 45px rgba(0, 242, 255, 0.09); }

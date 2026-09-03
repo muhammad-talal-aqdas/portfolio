@@ -1,6 +1,7 @@
 .scattered-grid {
+  --grid-rows: 3;
   position: relative;
-  min-height: min(76vw, 720px);
+  min-height: calc(var(--grid-rows) * min(19vw, 190px));
   width: 100%;
   overflow: hidden;
   isolation: isolate;
@@ -37,6 +38,37 @@
   border: 1px solid rgba(216, 252, 255, 0.32);
   background: #0a1117;
   box-shadow: 0 0 0 5px rgba(5, 10, 14, 0.45), 0 0 28px rgba(0, 242, 255, 0.1);
+}
+
+.scattered-grid__placeholder {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.4rem;
+  padding: 0.9rem;
+  background:
+    linear-gradient(140deg, rgba(0, 242, 255, 0.14), transparent 58%),
+    radial-gradient(circle at 82% 12%, rgba(107, 43, 255, 0.22), transparent 55%),
+    #08121a;
+  text-align: left;
+}
+
+.scattered-grid__placeholder-title {
+  color: #e9feff;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: clamp(0.62rem, 1.1vw, 0.82rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.scattered-grid__placeholder-teaser {
+  color: rgba(233, 254, 255, 0.5);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: clamp(0.5rem, 0.8vw, 0.64rem);
+  letter-spacing: 0.1em;
+  line-height: 1.6;
 }
 
 .scattered-grid__image {
@@ -83,15 +115,7 @@
 
 @media (max-width: 640px) {
   .scattered-grid {
-    min-height: 108vw;
-  }
-
-  .scattered-grid__card {
-    width: 34%;
-  }
-
-  .scattered-grid__card:nth-child(n + 6) {
-    display: none;
+    min-height: calc(var(--grid-rows) * 30vw);
   }
 }
 
