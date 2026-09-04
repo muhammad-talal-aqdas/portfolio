@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Noto_Nastaliq_Urdu } from "next/font/google";
 import localFont from "next/font/local";
 import { PersistentContact } from "@/components/PersistentContact";
 import "./globals.css";
@@ -54,6 +55,14 @@ const array = localFont({
   fallback: ["ui-monospace", "monospace"],
 });
 
+const notoNastaliqUrdu = Noto_Nastaliq_Urdu({
+  subsets: ["arabic"],
+  weight: ["400", "600"],
+  variable: "--font-urdu",
+  display: "swap",
+  fallback: ["serif"],
+});
+
 export const metadata: Metadata = {
   title: "Portfolio",
   description: "Personal portfolio",
@@ -67,7 +76,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${panchang.variable} ${array.variable} h-full antialiased`}
+      className={`${panchang.variable} ${array.variable} ${notoNastaliqUrdu.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}<PersistentContact /></body>
     </html>
