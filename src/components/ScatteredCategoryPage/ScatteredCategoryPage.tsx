@@ -20,6 +20,7 @@ const isVideo = (path: string) => /\.(mp4|webm|mov|ogg)(?:$|\?)/i.test(path);
 const BACKDROP_COUNT = 14;
 const BACKDROP_SHIFT = 18;
 const FOREGROUND_SHIFT = 4;
+const round = (value: number) => Math.round(value * 1000) / 1000;
 
 interface BackdropPlacement {
   src: string;
@@ -37,10 +38,10 @@ function getBackdropPlacements(items: PortfolioItem[]): BackdropPlacement[] {
     const phase = index * 2.399;
     return {
       src: images[(index * 7) % images.length],
-      x: (index / BACKDROP_COUNT) * 100 + Math.sin(phase) * 8,
-      y: 8 + ((Math.cos(phase) + 1) / 2) * 76,
-      width: 16 + ((Math.sin(phase * 1.7) + 1) / 2) * 12,
-      rotate: Math.sin(phase) * 9,
+      x: round((index / BACKDROP_COUNT) * 100 + Math.sin(phase) * 8),
+      y: round(8 + ((Math.cos(phase) + 1) / 2) * 76),
+      width: round(16 + ((Math.sin(phase * 1.7) + 1) / 2) * 12),
+      rotate: round(Math.sin(phase) * 9),
     };
   });
 }

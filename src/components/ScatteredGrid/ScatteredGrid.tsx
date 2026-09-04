@@ -28,6 +28,9 @@ interface Placement {
   duration: number;
 }
 
+// Rounded so server and client render identical style strings.
+const round = (value: number) => Math.round(value * 1000) / 1000;
+
 function getColumns(count: number) {
   if (count <= 4) return 2;
   if (count <= 9) return 3;
@@ -49,10 +52,10 @@ function getPlacements(count: number): Placement[] {
     const width = columnSpan * 0.74;
 
     return {
-      x: column * columnSpan + (columnSpan - width) / 2 + Math.sin(phase) * columnSpan * 0.1,
-      y: row * rowSpan + Math.cos(phase) * rowSpan * 0.12,
-      rotate: Math.sin(phase) * 5.5,
-      width,
+      x: round(column * columnSpan + (columnSpan - width) / 2 + Math.sin(phase) * columnSpan * 0.1),
+      y: round(row * rowSpan + Math.cos(phase) * rowSpan * 0.12),
+      rotate: round(Math.sin(phase) * 5.5),
+      width: round(width),
       delay: (index % 4) * 0.65,
       duration: 7 + (index % 3) * 1.5,
     };
