@@ -8,6 +8,12 @@
 .category-page__eyebrow, .category-page__hint { color: rgba(0, 242, 255, 0.62); font-family: var(--font-geist-mono), monospace; font-size: 0.63rem; letter-spacing: 0.25em; text-transform: uppercase; }
 .category-page h1 { margin: 1rem 0 0.8rem; font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 400; letter-spacing: 0.13em; line-height: 0.95; text-transform: uppercase; }
 .category-page__hint { margin-bottom: 2rem; color: rgba(232, 250, 255, 0.35); }
+.category-page--atmospheric { position: relative; isolation: isolate; background: #03070a; }
+.category-page--atmospheric .category-page__header, .category-page--atmospheric .category-page__content { position: relative; z-index: 2; }
+.category-page--atmospheric .category-page__content { filter: brightness(0.9); }
+.category-page__backdrop { position: fixed; inset: -6%; z-index: 0; pointer-events: none; filter: blur(11px) saturate(0.65) brightness(0.7); will-change: transform; }
+.category-page__backdrop-image { position: absolute; display: block; aspect-ratio: 1.32 / 1; object-fit: cover; opacity: 0.34; border-radius: 2px; }
+.category-page__vignette { position: fixed; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(ellipse at center, rgba(3, 7, 10, 0) 38%, rgba(3, 7, 10, 0.5) 72%, rgba(3, 7, 10, 0.9) 100%); }
 .snapshot-viewer { position: fixed; inset: 0; z-index: 70; display: grid; place-items: center; padding: 4rem 1.25rem; background: rgba(5, 10, 14, 0.96); backdrop-filter: blur(14px); }
 .snapshot-viewer figure { max-width: min(88vw, 900px); margin: 0; text-align: center; }
 .snapshot-viewer img, .snapshot-viewer video { display: block; max-height: 78vh; width: auto; max-width: 100%; border: 1px solid rgba(0, 242, 255, 0.35); object-fit: contain; box-shadow: 0 0 40px rgba(0, 242, 255, 0.12); }
