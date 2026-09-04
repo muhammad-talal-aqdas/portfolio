@@ -115,6 +115,12 @@ export const portfolioData: Record<string, PortfolioItem[]> = {
       title: "Iqbal's Poetry",
       teaser: "Fell in love at 14",
       description: "Fell in love with Iqbal's poetry at 14. His vision — non-traditional, uncompromising — became something I genuinely tried to live by.",
+      poetry: [
+        "نہ وہ عشق میں رہیں گرمیاں، نہ وہ حُسن میں رہیں شوخیاں\nنہ وہ غزنوی میں تڑپ رہی، نہ وہ خم ہے زلفِ ایاز میں",
+        "میں جو سر بہ سجدہ ہوا کبھی تو زمیں سے آنے لگی صدا\nترا دل تو ہے صنم آشنا تجھے کیا ملے گا نماز میں",
+        "گلا تو گھونٹ دیا اہلِ مدرسہ نے ترا\nکہاں سے آئے صدا \"لَا اِلٰہَ اِلَّا اللّٰه\"",
+        "اٹھا میں مدرسہ و خانقاہ سے غم\u200cناک\nنہ زندگی، نہ محبّت، نہ معرفت، نہ نگاہ",
+      ],
       image: "/assets/About/allama iqbal.jpeg",
       media: [
         "/assets/About/allama iqbal.jpeg",
