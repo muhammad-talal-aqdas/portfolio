@@ -10,10 +10,10 @@ interface CarouselSceneProps {
   onCardSelect?: (label: string) => void;
 }
 
-// Index 0 (About Me) sits at the top of the spiral, the last card
-// (Contact Me) at the bottom — so this descends as index increases.
+// Back to the original arrangement: index 0 (About Me) sits at the
+// bottom, the last card (Contact Me) at the top.
 const cardYOffset = (index: number) =>
-  ((MENU_CARDS.length - 1) / 2 - index) * CAROUSEL_CONFIG.spiralRise;
+  (index - (MENU_CARDS.length - 1) / 2) * CAROUSEL_CONFIG.spiralRise;
 
 const TOTAL_SPAN =
   (MENU_CARDS.length - 1) * CAROUSEL_CONFIG.spiralRise;
@@ -52,7 +52,7 @@ export default function CarouselScene({ onCardSelect }: CarouselSceneProps) {
     for (let i = 0; i <= segments; i++) {
       const t = i / segments;
       const angle = t * totalTurns * Math.PI * 2;
-      const y = startY - t * TOTAL_SPAN;
+      const y = startY + t * TOTAL_SPAN;
       points.push(
         new THREE.Vector3(
           Math.cos(angle) * (CAROUSEL_CONFIG.radius + 0.04),
@@ -142,7 +142,10 @@ export default function CarouselScene({ onCardSelect }: CarouselSceneProps) {
         }
 
         if (touchAxisRef.current === "y") {
-          targetScrollOffsetRef.current += deltaY * CAROUSEL_CONFIG.scrollClimbFactor * 2.2;
+          // Swipe up (finger moves up, deltaY negative) should feel like
+          // scrolling down a normal page — content moves up, revealing
+          // what's next. The previous sign felt backwards for that reason.
+          targetScrollOffsetRef.current -= deltaY * CAROUSEL_CONFIG.scrollClimbFactor * 2.2;
           const bound = TOTAL_SPAN / 2 + CAROUSEL_CONFIG.spiralRise;
           targetScrollOffsetRef.current = Math.max(-bound, Math.min(bound, targetScrollOffsetRef.current));
         } else if (touchAxisRef.current === "x") {
@@ -253,7 +256,7 @@ export default function CarouselScene({ onCardSelect }: CarouselSceneProps) {
         )}
       </group>
 
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, cardYOffset(MENU_CARDS.length - 1) - CAROUSEL_CONFIG.spiralRise, 0]}>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, cardYOffset(0) - CAROUSEL_CONFIG.spiralRise, 0]}>
         <planeGeometry args={[16, 16]} />
         <meshBasicMaterial
           color="#00f2ff"
@@ -265,7 +268,7 @@ export default function CarouselScene({ onCardSelect }: CarouselSceneProps) {
 
       <gridHelper
         args={[14, 28, "#00f2ff", "#12303a"]}
-        position={[0, cardYOffset(MENU_CARDS.length - 1) - CAROUSEL_CONFIG.spiralRise, 0]}
+        position={[0, cardYOffset(0) - CAROUSEL_CONFIG.spiralRise, 0]}
       />
     </>
   );
