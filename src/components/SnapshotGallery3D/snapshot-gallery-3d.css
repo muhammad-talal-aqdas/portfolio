@@ -1,0 +1,19 @@
+.snapshot-gallery-3d {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  /* Now the primary interactive surface — frames are clickable/hoverable,
+     so this needs real pointer events (not none). */
+  pointer-events: auto;
+  /* Very slight cave atmosphere — just enough to feel recessed/moody,
+     without obscuring the frames themselves. */
+  filter: blur(1.2px) brightness(0.82) saturate(0.88);
+}
+
+.snapshot-gallery-3d canvas {
+  width: 100% !important;
+  height: 100% !important;
+  /* Stops the browser from starting its own scroll/pan gesture on touch,
+     which otherwise fights the drag-to-look handler below. */
+  touch-action: none;
+}

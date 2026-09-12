@@ -1,0 +1,34 @@
+.persistent-contact {
+  position: fixed;
+  top: 50%;
+  /* Pulled slightly off the very edge, and enlarged below, so it reads
+     clearly instead of feeling squeezed against the corner. */
+  right: 0.6rem;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1.15rem 1rem 1.15rem 1.3rem;
+  transform: translateY(-50%) rotate(-90deg) translateX(50%);
+  transform-origin: right center;
+  border: 1px solid rgba(0, 242, 255, 0.55);
+  border-right: 0;
+  background: rgba(5, 12, 16, 0.92);
+  color: rgba(232, 250, 255, 0.92);
+  cursor: pointer;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 18px rgba(0, 242, 255, 0.22), -2px 0 10px rgba(0, 0, 0, 0.35);
+  transition: color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.persistent-contact:hover {
+  border-color: #00f2ff;
+  color: #00f2ff;
+  box-shadow: 0 0 26px rgba(0, 242, 255, 0.4), -2px 0 10px rgba(0, 0, 0, 0.35);
+}
+.persistent-contact__dot { width: 7px; height: 7px; border-radius: 50%; background: #00f2ff; box-shadow: 0 0 12px #00f2ff; }

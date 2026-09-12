@@ -1,0 +1,51 @@
+.sound-toggle {
+  position: fixed;
+  /* Sits below the page header row (back button / section label), not
+     overlapping it — those live in the same top-right corner otherwise. */
+  top: 5rem;
+  right: 1.5rem;
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 242, 255, 0.32);
+  background: rgba(5, 10, 14, 0.72);
+  color: rgba(232, 250, 255, 0.75);
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: color 200ms ease, border-color 200ms ease, transform 150ms ease;
+}
+
+.sound-toggle:hover {
+  border-color: #00f2ff;
+  color: #00f2ff;
+  transform: scale(1.05);
+}
+
+.sound-toggle__dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 107, 43, 0.6);
+  transition: background 200ms ease, box-shadow 200ms ease;
+}
+
+.sound-toggle__dot[data-active="true"] {
+  background: #00f2ff;
+  box-shadow: 0 0 8px #00f2ff;
+}
+
+@media (max-width: 640px) {
+  .sound-toggle {
+    top: 4.25rem;
+    right: 1rem;
+    width: 2.3rem;
+    height: 2.3rem;
+  }
+}
