@@ -10,8 +10,10 @@ interface CarouselSceneProps {
   onCardSelect?: (label: string) => void;
 }
 
+// Index 0 (About Me) sits at the top of the spiral, the last card
+// (Contact Me) at the bottom — so this descends as index increases.
 const cardYOffset = (index: number) =>
-  (index - (MENU_CARDS.length - 1) / 2) * CAROUSEL_CONFIG.spiralRise;
+  ((MENU_CARDS.length - 1) / 2 - index) * CAROUSEL_CONFIG.spiralRise;
 
 const TOTAL_SPAN =
   (MENU_CARDS.length - 1) * CAROUSEL_CONFIG.spiralRise;
@@ -23,9 +25,18 @@ export default function CarouselScene({ onCardSelect }: CarouselSceneProps) {
   const velocityRef = useRef<number>(CAROUSEL_CONFIG.autoRotateSpeed);
   const isDraggingRef = useRef(false);
   const lastPointerXRef = useRef(0);
+  const lastPointerYRef = useRef(0);
+  const pointerTypeRef = useRef<string>("mouse");
   const pointerIdRef = useRef<number | null>(null);
   const scrollOffsetRef = useRef(0);
   const targetScrollOffsetRef = useRef(0);
+  // Gesture-axis lock for touch: decides once per drag whether the swipe
+  // is primarily horizontal (rotate) or vertical (climb), instead of
+  // reacting to both every frame — a touch swipe is never perfectly
+  // straight, so without this, tiny sideways wobble during an intended
+  // vertical swipe still triggered visible rotation.
+  const touchAxisRef = useRef<"x" | "y" | null>(null);
+  const touchAccumRef = useRef({ x: 0, y: 0 });
 
   const { gl } = useThree();
 
@@ -41,7 +52,7 @@ export default function CarouselScene({ onCardSelect }: CarouselSceneProps) {
     for (let i = 0; i <= segments; i++) {
       const t = i / segments;
       const angle = t * totalTurns * Math.PI * 2;
-      const y = startY + t * TOTAL_SPAN;
+      const y = startY - t * TOTAL_SPAN;
       points.push(
         new THREE.Vector3(
           Math.cos(angle) * (CAROUSEL_CONFIG.radius + 0.04),
@@ -100,7 +111,11 @@ export default function CarouselScene({ onCardSelect }: CarouselSceneProps) {
       isDraggingRef.current = true;
       targetRotationRef.current = null;
       pointerIdRef.current = event.pointerId;
+      pointerTypeRef.current = event.pointerType;
       lastPointerXRef.current = event.clientX;
+      lastPointerYRef.current = event.clientY;
+      touchAxisRef.current = null;
+      touchAccumRef.current = { x: 0, y: 0 };
       canvas.setPointerCapture(event.pointerId);
       document.body.style.cursor = "grabbing";
     };
@@ -109,9 +124,43 @@ export default function CarouselScene({ onCardSelect }: CarouselSceneProps) {
       if (!isDraggingRef.current) return;
 
       const deltaX = event.clientX - lastPointerXRef.current;
+      const deltaY = event.clientY - lastPointerYRef.current;
       lastPointerXRef.current = event.clientX;
-      rotationRef.current += deltaX * CAROUSEL_CONFIG.dragSensitivity;
-      velocityRef.current = deltaX * CAROUSEL_CONFIG.dragSensitivity * 60;
+      lastPointerYRef.current = event.clientY;
+
+      if (pointerTypeRef.current === "touch") {
+        // Wait until the swipe has moved enough to be unambiguous, then
+        // lock to whichever axis has moved more, for the rest of this drag.
+        if (touchAxisRef.current === null) {
+          touchAccumRef.current.x += Math.abs(deltaX);
+          touchAccumRef.current.y += Math.abs(deltaY);
+          const total = touchAccumRef.current.x + touchAccumRef.current.y;
+          if (total > 10) {
+            touchAxisRef.current =
+              touchAccumRef.current.x > touchAccumRef.current.y ? "x" : "y";
+          }
+        }
+
+        if (touchAxisRef.current === "y") {
+          targetScrollOffsetRef.current += deltaY * CAROUSEL_CONFIG.scrollClimbFactor * 2.2;
+          const bound = TOTAL_SPAN / 2 + CAROUSEL_CONFIG.spiralRise;
+          targetScrollOffsetRef.current = Math.max(-bound, Math.min(bound, targetScrollOffsetRef.current));
+        } else if (touchAxisRef.current === "x") {
+          rotationRef.current -= deltaX * CAROUSEL_CONFIG.dragSensitivity;
+          velocityRef.current = -deltaX * CAROUSEL_CONFIG.dragSensitivity * 60;
+        }
+        // touchAxisRef still null (below threshold): do nothing yet, avoids
+        // any jitter before the gesture's direction is clear.
+        return;
+      }
+
+      // Dragging left should feel like pulling the carousel's surface
+      // toward the left (next content slides in from the right), matching
+      // ordinary swipe conventions — the same direction fix applied to the
+      // cave earlier. Mouse drags only ever rotate; climbing stays on the
+      // wheel, as before.
+      rotationRef.current -= deltaX * CAROUSEL_CONFIG.dragSensitivity;
+      velocityRef.current = -deltaX * CAROUSEL_CONFIG.dragSensitivity * 60;
     };
 
     const handlePointerUp = (event: PointerEvent) => {
@@ -204,7 +253,7 @@ export default function CarouselScene({ onCardSelect }: CarouselSceneProps) {
         )}
       </group>
 
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, cardYOffset(0) - CAROUSEL_CONFIG.spiralRise, 0]}>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, cardYOffset(MENU_CARDS.length - 1) - CAROUSEL_CONFIG.spiralRise, 0]}>
         <planeGeometry args={[16, 16]} />
         <meshBasicMaterial
           color="#00f2ff"
@@ -216,7 +265,7 @@ export default function CarouselScene({ onCardSelect }: CarouselSceneProps) {
 
       <gridHelper
         args={[14, 28, "#00f2ff", "#12303a"]}
-        position={[0, cardYOffset(0) - CAROUSEL_CONFIG.spiralRise, 0]}
+        position={[0, cardYOffset(MENU_CARDS.length - 1) - CAROUSEL_CONFIG.spiralRise, 0]}
       />
     </>
   );
